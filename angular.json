@@ -27,7 +27,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/javascript/main.js"
+              
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"

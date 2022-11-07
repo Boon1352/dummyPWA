@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PushNotificationService } from './data.service';
+import { PushNotificationService } from './push-notification.service';
 
 describe('PushNotificationService', () => {
   let service: PushNotificationService;

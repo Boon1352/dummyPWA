@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { SwPush, SwUpdate } from '@angular/service-worker';
-import { NewsletterService } from './newsletter.service';
+import { PushNotificationService } from './services/push-notification.service';
+
+const PUBLIC_VAPID_KEY_OF_SERVER = "BPcPhBbx_r5n2QSNYOIE1WlAobzURzA3BRCwletCI7I06g9RuTpymyVDiGwrXF-ML1DvRNbHp9RuY4jnhk905iU";
 
 @Component({
   selector: 'app-root',
@@ -9,8 +11,7 @@ import { NewsletterService } from './newsletter.service';
 })
 export class AppComponent {
   title = 'dummyPWA';
-  private readonly PUBLIC_VAPID_KEY_OF_SERVER = "BA-6TpMiTPp3zwWDNwDxF3KTUQ8nTjOfToDc1xa4VkrIlk41lMVl4850iOypw-g6TFYYN-Q768Ee_6KpAWliU-I";
-
+  
   buttonClicked() {
     console.log("Button Clicked!")
   }
@@ -18,11 +19,27 @@ export class AppComponent {
   constructor(
     private readonly updates: SwUpdate,
     private swPush: SwPush,
-    private newsletterService: NewsletterService) {
+    private pushNotification : PushNotificationService
+    ) {
     this.updates.available.subscribe(event => {
       this.showAppUpdateAlert();
     });
+
+    if( swPush.isEnabled){
+
+      swPush.requestSubscription({
+        serverPublicKey :  PUBLIC_VAPID_KEY_OF_SERVER
+      })
+      .then( subscription => {
+        
+        //send subsription to server
+        this.pushNotification.SendSubsriptionToServer(subscription).subscribe() ;
+      })
+      .catch(console.error);
+    }
+
   }
+  
   showAppUpdateAlert() {
     const header = 'App Update available';
     const message = 'Choose Ok to update';
@@ -49,16 +66,16 @@ export class AppComponent {
   //   }
   // }
 
-  subscribeToNotification() {
-    this.swPush.requestSubscription({
-      serverPublicKey: this.PUBLIC_VAPID_KEY_OF_SERVER
-    })
-      .then(sub => {
-        console.log('Notification Subscription: ', sub);
-        this.newsletterService.addPushSubscriber(sub).subscribe();
-      })
-      .catch(err => console.error('Could not subscribe due to:', err));
-  }
+  // subscribeToNotification() {
+  //   this.swPush.requestSubscription({
+  //     serverPublicKey: this.PUBLIC_VAPID_KEY_OF_SERVER
+  //   })
+  //     .then(sub => {
+  //       console.log('Notification Subscription: ', sub);
+        
+  //     })
+  //     .catch(err => console.error('Could not subscribe due to:', err));
+  // }
 
 }
 

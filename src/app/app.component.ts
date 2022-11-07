@@ -19,7 +19,7 @@ export class AppComponent {
   constructor(
     private readonly updates: SwUpdate,
     private swPush: SwPush,
-    private pushNotification : PushNotificationService
+    private pushNotification : PushNotificationService,
     ) {
     this.updates.available.subscribe(event => {
       this.showAppUpdateAlert();
@@ -53,6 +53,11 @@ export class AppComponent {
   }
   doAppUpdate() {
     this.updates.activateUpdate().then(() => document.location.reload());
+  }
+
+  showNotification(){
+    console.log('Clicked!!!!');
+    this.pushNotification.ShowNotificationPayloadToUser();
   }
 
   // constructor (private readonly swUpdate: SwUpdate){

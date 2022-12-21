@@ -5,8 +5,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 //your generated key pairs, 
-const PUBLIC_VAPID = 'BPcPhBbx_r5n2QSNYOIE1WlAobzURzA3BRCwletCI7I06g9RuTpymyVDiGwrXF-ML1DvRNbHp9RuY4jnhk905iU';
-const PRIVATE_VAPID = 'GMtWdeTuylYkmsK-A3oQxvcd4NbnnoZ8tzHtvYwNUk4';
+const PUBLIC_VAPID = 'BHHL2x0m8LKxLadCBXalegN7mJAqmhEppBc58aXBpV5f_HVcTGpxYh0flNPkLp566eeGeBpmFB1R3K49E7L1enc';
+const PRIVATE_VAPID = 'Rp3wfxN4felqrH3s3dgu-wOIVFnF8aQoMJAFaiY1Bqg';
 
 const fakeDatabase = [];
 
@@ -25,6 +25,13 @@ app.post('/subscription', (req, res) => {
     const subscription = req.body;
     fakeDatabase.push(subscription);
     return res.sendStatus(200);
+});
+
+app.post('/data', (req, res) => {
+    console.log('request came!');
+    const userData = req.body;
+    console.log(JSON.stringify(userData));
+    res.send(userData);
 });
 
 
